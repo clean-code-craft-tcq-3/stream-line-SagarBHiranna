@@ -9,7 +9,7 @@ float* checkAndFixInvalidValue(float sensorData[], int lengthOfSensorData, senso
 {
     for (int sensorValueIter = 0; sensorValueIter < lengthOfSensorData; sensorValueIter++)
     {
-        if (!((sensorData[sensorValueIter]>thresoldValues.minimumValue) && (sensorData[sensorValueIter]<thresoldValues.maximumValue)))
+        if (((sensorData[sensorValueIter]<thresoldValues.minimumValue) || (sensorData[sensorValueIter]>thresoldValues.maximumValue)))
         {
             sensorData[sensorValueIter] = ((thresoldValues.minimumValue+thresoldValues.maximumValue)*0.5);//assigning median value incase of invalid value
         }
@@ -35,8 +35,9 @@ streamingDataFormat* storeSensorData(float tempSensorValues[], float socSensorVa
     }
  }
 
-void streamMainFunction(sensorDataExtract sensorsData, sensorThresholdValues tempthresoldValues, sensorThresholdValues socthresoldValues)
+int streamMainFunction(sensorDataExtract sensorsData, sensorThresholdValues tempthresoldValues, sensorThresholdValues socthresoldValues)
 {
+    int flag=0;
     float* tempSensorDataVerified, *socSensorDataVerified;
     streamingDataFormat* streamingDataInfo;
     streamingDataFormat streamingData[sensorsData.lengthOfArray];
@@ -45,13 +46,15 @@ void streamMainFunction(sensorDataExtract sensorsData, sensorThresholdValues tem
     socSensorDataVerified = checkAndFixInvalidValue(sensorsData.socSensorValues, sensorsData.lengthOfArray, socthresoldValues);
     streamingDataInfo = storeSensorData(tempSensorDataVerified, socSensorDataVerified, streamingData, sensorsData.lengthOfArray);
     streamSenderData(streamingDataInfo, displayOnConsole, sensorsData.lengthOfArray);
+    flag=1;
+    return flag;
      
 }
 
 /*int main()
 {
-    float tempSensorData[] = {12.0, 20.0, 40.0, 30.0};
-    float socSensorData[] = {60.0, 25.0, 45.0, 34.0};
+    float tempSensorData[] = {9.0, 20.0, 40.0, 70.0};
+    float socSensorData[] = {10.0, 25.0, 45.0, 90.0};
     sensorThresholdValues tempthresoldValues = {.maximumValue = 45.0, .minimumValue=10.0};
     sensorThresholdValues socthresoldValues = {.maximumValue = 80.0, .minimumValue=20.0};
     sensorDataExtract sensorDataInput = {.lengthOfArray = 4, .tempSensorValues = tempSensorData, .socSensorValues = socSensorData};
