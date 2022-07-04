@@ -9,7 +9,7 @@ float* checkAndFixInvalidValue(float sensorData[], int lengthOfSensorData, senso
 {
     for (int sensorValueIter = 0; sensorValueIter < lengthOfSensorData; sensorValueIter++)
     {
-        if (((sensorData[sensorValueIter]<thresoldValues.minimumValue) || (sensorData[sensorValueIter]>thresoldValues.maximumValue)))
+        if ((sensorData[sensorValueIter]<thresoldValues.minimumValue) || (sensorData[sensorValueIter]>thresoldValues.maximumValue))
         {
             sensorData[sensorValueIter] = ((thresoldValues.minimumValue+thresoldValues.maximumValue)*0.5);//assigning median value incase of invalid value
         }
