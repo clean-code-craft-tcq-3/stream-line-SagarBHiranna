@@ -35,7 +35,7 @@ streamingDataFormat* storeSensorData(float tempSensorValues[], float socSensorVa
     }
  }
 
-int streamMainFunction(sensorDataExtract sensorsData, sensorThresholdValues tempthresoldValues, sensorThresholdValues socthresoldValues)
+int streamMainFunction(sensorDataExtract sensorsData, sensorThresholdValues tempthresoldValues, sensorThresholdValues socthresoldValues, void(*fpStreamingMediumFunction)(float, float))
 {
     int flag=0;
     float* tempSensorDataVerified, *socSensorDataVerified;
@@ -45,18 +45,8 @@ int streamMainFunction(sensorDataExtract sensorsData, sensorThresholdValues temp
     tempSensorDataVerified = checkAndFixInvalidValue(sensorsData.tempSensorValues, sensorsData.lengthOfArray, tempthresoldValues);
     socSensorDataVerified = checkAndFixInvalidValue(sensorsData.socSensorValues, sensorsData.lengthOfArray, socthresoldValues);
     streamingDataInfo = storeSensorData(tempSensorDataVerified, socSensorDataVerified, streamingData, sensorsData.lengthOfArray);
-    streamSenderData(streamingDataInfo, displayOnConsole, sensorsData.lengthOfArray);
+    streamSenderData(streamingDataInfo, fpStreamingMediumFunction, sensorsData.lengthOfArray);
     flag=1;
     return flag;
      
 }
-
-/*int main()
-{
-    float tempSensorData[] = {9.0, 20.0, 40.0, 70.0};
-    float socSensorData[] = {10.0, 25.0, 45.0, 90.0};
-    sensorThresholdValues tempthresoldValues = {.maximumValue = 45.0, .minimumValue=10.0};
-    sensorThresholdValues socthresoldValues = {.maximumValue = 80.0, .minimumValue=20.0};
-    sensorDataExtract sensorDataInput = {.lengthOfArray = 4, .tempSensorValues = tempSensorData, .socSensorValues = socSensorData};
-    streamMainFunction(sensorDataInput, tempthresoldValues, socthresoldValues);
-}*/

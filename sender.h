@@ -21,4 +21,4 @@ typedef struct  {
 float* checkAndFixInvalidValue(float sensorData[], int lengthOfSensorData, sensorThresholdValues thresoldValues);
 streamingDataFormat* storeSensorData(float tempSensorValues[], float socSensorValues[], streamingDataFormat* streamingData, int lengthOfSensorValues);
 void streamSenderData(streamingDataFormat streamingData[], void(*fpStreamingMediumFunction)(float, float), int lengthOfStreamingData);
-int streamMainFunction(sensorDataExtract sensorsData, sensorThresholdValues tempthresoldValues, sensorThresholdValues socthresoldValues);
+int streamMainFunction(sensorDataExtract sensorsData, sensorThresholdValues tempthresoldValues, sensorThresholdValues socthresoldValues, void(*fpStreamingMediumFunction)(float, float));
