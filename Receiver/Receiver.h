@@ -4,13 +4,11 @@ void updateFloatValFromString(vector<float> &streamData,string line,size_t found
     string valueString;
     float valueData;
     valueString = line.substr(foundPos+matchString.length(),DIGITS);
-    cout<<valueString<<endl;
     if(valueString != ""){
         int valueLength = valueString.size()+1;
         char valueArray[valueLength];
         strcpy(valueArray,valueString.c_str());
         valueData = strtof(valueArray,nullptr);
-        cout<<valueData<<endl;
         streamData.push_back(valueData);
     }
 }
